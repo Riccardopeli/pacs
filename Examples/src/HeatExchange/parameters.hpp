@@ -26,8 +26,8 @@ struct parameters
   int M;
   //! name of the result file
   std::string result_name;
-  //! location of the ouput
-  std::string output;
+  //! norm for the stopping criterion
+  std::string norm;
 
   
 //! Constructor takes default values
@@ -44,7 +44,7 @@ struct parameters
     hc(1.e-6*200.),
     M(100),
     result_name("result.dat"),
-    output("file")
+    norm("L2")
   {}
 };
 //! Prints parameters

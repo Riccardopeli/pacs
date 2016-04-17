@@ -22,5 +22,4 @@ hc=200.0e-6
 M=11
 #Name of the result file
 result_name=risultati.dat
-#Location of the output("screen","file" or "both")
-output=screen
+

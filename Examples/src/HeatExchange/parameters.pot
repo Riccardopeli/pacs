@@ -20,3 +20,7 @@ k=0.164
 hc=200.0e-6
 # Number of elements
 M=11
+#Name of the result file
+result_name=risultati.dat
+#Location of the output("screen","file" or "both")
+output=screen

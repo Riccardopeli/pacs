@@ -17,7 +17,8 @@
     Linear finite elements
     Iterative resolution by Gauss Siedel.
     **************************************************
-    
+    Si può specifare attraverso il parametro output in        parameters.pot       se    si desidera avere l'ouput 
+    in un file(il cui nome viene specifato con il parametro result_name) o a schermo o entrambi.
     Example adapted by Luca Formaggia from  a code found in 
     "Simulation numerique an C++" di I. Danaila, F. Hecht e
     O. Pironneau.
@@ -62,7 +63,8 @@ int main(int argc, char** argv)
   const auto& k=param.k;  // Thermal conductivity
   const auto& hc=param.hc; // Convection coefficient
   const auto&    M=param.M; // Number of grid elements
-  
+  const auto& result_name=param.result_name; // name of the output file
+  const auto& output=param.output;
   //! Precomputed coefficient for adimensional form of equation
   const auto act=2.*(a1+a2)*hc*L*L/(k*a1*a2);
 
@@ -87,7 +89,8 @@ int main(int argc, char** argv)
      do
        { epsilon=0.;
 
-	 // first M-1 row of linear system
+	  
+
          for(int m=1;m < M;m++)
          {   
 	   xnew  = (theta[m-1]+theta[m+1])/(2.+h*h*act);
@@ -111,6 +114,7 @@ int main(int argc, char** argv)
 	  "||dx||="<<sqrt(epsilon)<<endl;
 	status=1;
       }
+    
 
  // Analitic solution
 
@@ -125,22 +129,32 @@ int main(int argc, char** argv)
      std::vector<double> coor(M+1);
      std::vector<double> sol(M+1);
      std::vector<double> exact(M+1);
-
-     cout<<"Result file: result.dat"<<endl;
-     ofstream f("result.dat");
+     if(output=="both" || output=="file"){
+	     cout<<"Result file:"<<result_name<<endl;
+	     ofstream f(result_name);
+             f.close();
+	     for(int m = 0; m<= M; m++)
+	       {
+		 // \t writes a tab 
+		 f<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;
+		 // An example of use of tie and tuples!
+		}
+     }
+     if(output=="both" || output=="screen"){
+	for(int m = 0; m<= M; m++)
+	       {
+	std::cout<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl; 
+          }
+	}
      for(int m = 0; m<= M; m++)
        {
-	 // \t writes a tab 
-         f<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;
-	 // An example of use of tie and tuples!
-         
-	 std::tie(coor[m],sol[m],exact[m])=
+         std::tie(coor[m],sol[m],exact[m])=
 	   std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
-       }
+        }
      // Using temporary files (another nice use of tie)
      gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<
        "w lp title 'uh',"<< gp.file1d(std::tie(coor,exact))<<
        "w l title 'uex'"<<std::endl;
-     f.close();
+     
      return status;
 }

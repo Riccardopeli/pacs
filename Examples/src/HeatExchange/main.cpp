@@ -123,6 +123,7 @@ int main(int argc, char** argv)
          
 	 std::tie(coor[m],sol[m],exact[m])=
 	   std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
+
        }
      // Using temporary files (another nice use of tie)
      gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<

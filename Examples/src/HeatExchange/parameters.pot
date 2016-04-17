@@ -19,7 +19,7 @@ k=0.164
 # Convection coefficient
 hc=200.0e-6
 # Number of elements
-M=11
+M=1000
 #Name of the result file
 result_name=risultati.dat
 

@@ -132,13 +132,14 @@ int main(int argc, char** argv)
      if(output=="both" || output=="file"){
 	     cout<<"Result file:"<<result_name<<endl;
 	     ofstream f(result_name);
-             f.close();
+             
 	     for(int m = 0; m<= M; m++)
 	       {
 		 // \t writes a tab 
 		 f<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;
 		 // An example of use of tie and tuples!
 		}
+     f.close(); 
      }
      if(output=="both" || output=="screen"){
 	for(int m = 0; m<= M; m++)
